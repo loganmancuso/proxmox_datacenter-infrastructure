@@ -51,3 +51,12 @@ resource "proxmox_virtual_environment_certificate" "node_cert" {
   certificate = tls_self_signed_cert.proxmox_virtual_environment_certificate[each.key].cert_pem
   private_key = tls_private_key.proxmox_virtual_environment_certificate.private_key_pem
 }
+
+#######################################
+# Ansible Bootstrap Node
+#######################################
+resource "null_resource" "ansible_bootstrap" {
+ provisioner "local-exec" {
+    command = "ansible-playbook -i scripts/hosts scripts/bootstrap.yml"
+  }
+}

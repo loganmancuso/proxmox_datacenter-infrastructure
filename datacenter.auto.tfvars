@@ -17,4 +17,5 @@ dns_servers = {
   "local"     = "192.168.1.1"
 }
 
-ops_password = "Passage-Escapade-Essential-Subarctic-Strep0-Gem"
+ops_password      = "Passage-Escapade-Essential-Subarctic-Strep0-Gem"
+instance_password = "Dawn-Purge-Anagram9"

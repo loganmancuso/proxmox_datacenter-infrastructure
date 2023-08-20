@@ -16,10 +16,6 @@ terraform {
       source  = "bpg/proxmox"
       version = ">= 0.29.0"
     }
-    ansible = {
-      version = ">= 1.1.0"
-      source  = "ansible/ansible"
-    }
   }
   backend "local" {
     path = "datacenter-infrastructure.tfstate"

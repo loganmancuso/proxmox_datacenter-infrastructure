@@ -18,6 +18,11 @@ variable "root_password" {
   sensitive = true
 }
 
+variable "instance_password" {
+  type = string
+  sensitive = true
+}
+
 variable "nodes" {
   type = map(string)
 }
