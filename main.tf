@@ -21,6 +21,9 @@ terraform {
       source  = "ansible/ansible"
     }
   }
+  backend "local" {
+    path = "datacenter-infrastructure.tfstate"
+  }
 }
 
 provider "proxmox" {
