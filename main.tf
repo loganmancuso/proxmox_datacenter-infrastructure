@@ -17,16 +17,14 @@ terraform {
       version = ">= 0.29.0"
     }
   }
-  # backend "local" {
-  #   path = "datacenter-infrastructure.tfstate"
-  # }
-  backend "http" {
-    
+  backend "local" {
+    path = "datacenter-infrastructure.tfstate"
   }
+  # backend "http" {}
 }
 
 provider "proxmox" {
-  endpoint = "https://${var.endpoint}:8006/"
+  endpoint = "https://${var.endpoint}"
   username = "root@pam"
   password = var.root_password
   # (Optional) Skip TLS Verification
