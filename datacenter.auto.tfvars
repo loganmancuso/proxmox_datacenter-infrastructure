@@ -5,7 +5,7 @@
 #
 ##############################################################################
 
-endpoint      = "192.168.1.20"
+endpoint      = "hyperion.loganmancuso.duckdns.org"
 root_password = "Dreamland-Vascular1-Clatter"
 nodes = {
   pve-master = "192.168.1.20"
