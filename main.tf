@@ -17,8 +17,11 @@ terraform {
       version = ">= 0.29.0"
     }
   }
-  backend "local" {
-    path = "datacenter-infrastructure.tfstate"
+  # backend "local" {
+  #   path = "datacenter-infrastructure.tfstate"
+  # }
+  backend "http" {
+    
   }
 }
 
