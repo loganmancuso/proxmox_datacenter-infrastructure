@@ -38,6 +38,9 @@ resource "proxmox_virtual_environment_firewall_ipset" "dns" {
       name    = cidr.value
     }
   }
+  lifecycle {
+    ignore_changes = [cidr]
+  }
 }
 
 #######################################

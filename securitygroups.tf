@@ -10,7 +10,7 @@
 #######################################
 resource "proxmox_virtual_environment_cluster_firewall_security_group" "default" {
   name    = "sg-default"
-  comment = " Default Security Group"
+  comment = "Default Security Group"
 
   ######################
   ### Inbound Rules ###

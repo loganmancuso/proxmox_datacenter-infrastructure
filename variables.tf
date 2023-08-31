@@ -19,7 +19,7 @@ variable "root_password" {
 }
 
 variable "instance_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 

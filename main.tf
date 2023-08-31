@@ -20,11 +20,10 @@ terraform {
   backend "local" {
     path = "datacenter-infrastructure.tfstate"
   }
-  # backend "http" {}
 }
 
 provider "proxmox" {
-  endpoint = "https://${var.endpoint}"
+  endpoint = "https://${var.endpoint}:8006/"
   username = "root@pam"
   password = var.root_password
   # (Optional) Skip TLS Verification
