@@ -59,23 +59,6 @@ resource "proxmox_virtual_environment_cluster_firewall" "dc_firewall_policy" {
 }
 
 #######################################
-# Node Firewall Policy
-#######################################
-# resource "proxmox_virtual_environment_cluster_firewall" "node_firewall_policy" {
-#   for_each      = var.nodes
-#   node_name     = each.key
-#   enabled       = true
-#   ebtables      = true
-#   input_policy  = "DROP"
-#   output_policy = "DROP"
-#   log_ratelimit {
-#     enabled = false
-#     burst   = 10
-#     rate    = "5/second"
-#   }
-# }
-
-#######################################
 # Datacenter Default Rules
 #######################################
 resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
@@ -91,7 +74,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
       action  = "ACCEPT"
       comment = "inbound-permit-${rule.key}-proxmoxui"
       source  = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
-      sport   = "8806"
       dest    = "dc/${proxmox_virtual_environment_firewall_alias.cluster_alias[rule.key].id}"
       dport   = "8806"
       proto   = "tcp"
@@ -106,7 +88,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
       action  = "ACCEPT"
       comment = "inbound-permit-${rule.key}-packer"
       source  = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
-      sport   = "8802"
       dest    = "dc/${proxmox_virtual_environment_firewall_alias.cluster_alias[rule.key].id}"
       dport   = "8802"
       proto   = "tcp"
@@ -118,7 +99,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "inbound-permit-vpc-packer"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
-    sport   = "8802"
     dest    = "dc/${proxmox_virtual_environment_firewall_alias.vpc.id}"
     dport   = "8802"
     proto   = "tcp"
@@ -130,7 +110,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "inbound-permit-private-ssh"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
-    sport   = "22"
     dport   = "22"
     proto   = "tcp"
     log     = "info"
@@ -140,7 +119,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "inbound-permit-vpc-ssh"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.vpc.id}"
-    sport   = "22"
     dest    = "dc/${proxmox_virtual_environment_firewall_alias.vpc.id}"
     dport   = "22"
     proto   = "tcp"
@@ -190,7 +168,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
       action  = "ACCEPT"
       comment = "outbound-permit-${rule.key}-proxmoxui"
       source  = "dc/${proxmox_virtual_environment_firewall_alias.cluster_alias[rule.key].id}"
-      sport   = "8806"
       dest    = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
       dport   = "8806"
       proto   = "tcp"
@@ -205,7 +182,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
       action  = "ACCEPT"
       comment = "outbound-permit-${rule.key}-packer"
       source  = "dc/${proxmox_virtual_environment_firewall_alias.cluster_alias[rule.key].id}"
-      sport   = "8802"
       dest    = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
       dport   = "8802"
       proto   = "tcp"
@@ -217,7 +193,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "outbound-permit-vpc-packer"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.vpc.id}"
-    sport   = "8802"
     dest    = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
     dport   = "8802"
     proto   = "tcp"
@@ -257,7 +232,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "outbound-permit-private-https"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
-    sport   = "443"
     dest    = "dc/${proxmox_virtual_environment_firewall_alias.global_network.id}"
     dport   = "443"
     proto   = "tcp"
@@ -268,7 +242,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "outbound-permit-vpc-https"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.vpc.id}"
-    sport   = "443"
     dest    = "dc/${proxmox_virtual_environment_firewall_alias.global_network.id}"
     dport   = "443"
     proto   = "tcp"
@@ -279,7 +252,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "outbound-permit-private-http"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
-    sport   = "80"
     dest    = "dc/${proxmox_virtual_environment_firewall_alias.global_network.id}"
     dport   = "80"
     proto   = "tcp"
@@ -290,7 +262,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "outbound-permit-vpc-http"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.vpc.id}"
-    sport   = "80"
     dest    = "dc/${proxmox_virtual_environment_firewall_alias.global_network.id}"
     dport   = "80"
     proto   = "tcp"
@@ -302,7 +273,6 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "outbound-permit-private-dns"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.home_network.id}"
-    sport   = "53"
     dest    = "+${proxmox_virtual_environment_firewall_ipset.dns.id}"
     dport   = "53"
     proto   = "tcp"
@@ -313,10 +283,17 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
     action  = "ACCEPT"
     comment = "outbound-permit-dns"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.vpc.id}"
-    sport   = "53"
     dest    = "+${proxmox_virtual_environment_firewall_ipset.dns.id}"
     dport   = "53"
     proto   = "tcp"
+    log     = "info"
+  }
+
+  # Default Drop All
+  rule {
+    type    = "in"
+    action  = "DROP"
+    comment = "inbound-default-drop"
     log     = "info"
   }
   depends_on = [
