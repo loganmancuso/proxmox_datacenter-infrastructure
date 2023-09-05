@@ -37,6 +37,9 @@
       group: root
       mode: '700'
 
+# Configure SMTP email notifications
+# https://technotim.live/posts/proxmox-alerts/      
+
   - name: create font directory
     file:
       path: ~/.local/share/fonts
