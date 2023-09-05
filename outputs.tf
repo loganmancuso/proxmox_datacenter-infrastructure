@@ -44,7 +44,7 @@ output "preferred_dns" {
 
 output "instance_credentials" {
   description = "VM instance credentials"
-  sensitive = true
+  sensitive   = true
   value = {
     username = "instance-user"
     password = var.instance_password
