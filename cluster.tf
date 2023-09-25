@@ -57,6 +57,6 @@ resource "proxmox_virtual_environment_certificate" "node_cert" {
 #######################################
 resource "null_resource" "ansible_bootstrap" {
   provisioner "local-exec" {
-    command = "ansible-playbook -i scripts/hosts scripts/bootstrap.yml"
+    command = "ansible-playbook -i scripts/${local.workspace}/hosts scripts/bootstrap.yml"
   }
 }

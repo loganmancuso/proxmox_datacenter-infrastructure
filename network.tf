@@ -79,7 +79,7 @@ resource "proxmox_virtual_environment_hosts" "hosts" {
   }
 }
 
-# terraform import proxmox_virtual_environment_network_linux_bridge.vmbr0["pve-master"] pve:vmbr0
+# terraform import proxmox_virtual_environment_network_linux_bridge.vmbr0[\"pve-master\"] pve:vmbr0
 resource "proxmox_virtual_environment_network_linux_bridge" "vmbr0" {
   for_each   = var.nodes
   node_name  = each.key
@@ -90,6 +90,7 @@ resource "proxmox_virtual_environment_network_linux_bridge" "vmbr0" {
   gateway    = var.dns_servers["local"]
   comment    = "default bridge interface"
   ports = [
-    "enp37s0"
+    # "enp37s0"
+    "eth0"
   ]
 }
