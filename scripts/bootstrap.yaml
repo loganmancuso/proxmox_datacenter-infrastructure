@@ -1,0 +1,96 @@
+---
+- hosts: pve-nodes
+  tasks:
+  - name: remove prod pve subscription
+    file:
+      state: absent
+      path: /etc/apt/sources.list.d/pve-enterprise.list
+
+  - name: remove prod ceph subscription
+    file:
+      state: absent
+      path: /etc/apt/sources.list.d/ceph.list
+
+  - name: create new sources list
+    copy:
+      dest: /etc/apt/sources.list.d/pve-nosub.list
+      content: |
+        deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
+
+  - name: upgrade all apt packages
+    apt: upgrade=dist force_apt_get=yes
+
+  - name: install basic tools
+    apt:
+      pkg:
+        - git
+        - wget
+        - curl
+        - unzip
+        - lshw
+      state: latest
+
+  - name: Copy kill vm script
+    ansible.builtin.copy:
+      src: helper/killvm.sh
+      dest: /opt/killvm.sh
+      owner: root
+      group: root
+      mode: '700'
+
+# Configure SMTP email notifications
+# https://technotim.live/posts/proxmox-alerts/      
+
+  - name: create font directory
+    file:
+      path: ~/.local/share/fonts
+      state: directory
+
+  - name: extract fonts
+    ansible.builtin.unarchive:
+      src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/CascadiaCode.zip
+      dest: ~/.local/share/fonts
+      remote_src: true
+      validate_certs: true
+
+  - name: refresh fonts
+    shell: fc-cache -fv
+
+  - name: create config directory
+    file:
+      path: ~/.config
+      state: directory
+
+  - name: clone bash prompt
+    git:
+      repo: https://gitlab.com/snippets/2295216.git
+      dest: ~/.config/bash
+      clone: yes
+      update: yes
+
+  - name: clone oh-my-posh theme
+    git:
+      repo: https://gitlab.com/snippets/2351345.git
+      dest: ~/.config/oh-my-posh
+      clone: yes
+      update: yes
+
+  - name: download oh my posh installer
+    get_url: 
+      url: https://ohmyposh.dev/install.sh 
+      dest: /opt/install.sh
+      mode: 0775
+      
+  - name: install oh-my-posh
+    shell: /opt/install.sh
+
+  - name: add prompt to bashrc
+    blockinfile: 
+      state: present
+      insertafter: EOF
+      dest: ~/.bashrc
+      marker: "# ANSIBLE MANAGED BLOCK #"
+      content: |
+        if [ -d ~/.config/bash ]; then
+          . ~/.config/bash/bash_aliases
+        fi
