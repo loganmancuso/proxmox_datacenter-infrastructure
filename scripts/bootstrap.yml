@@ -27,6 +27,7 @@
         - wget
         - curl
         - unzip
+        - lshw
       state: latest
 
   - name: Copy kill vm script

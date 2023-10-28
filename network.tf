@@ -90,7 +90,6 @@ resource "proxmox_virtual_environment_network_linux_bridge" "vmbr0" {
   gateway    = var.dns_servers["local"]
   comment    = "default bridge interface"
   ports = [
-    # "enp37s0"
-    "eth0"
+    local.workspace == "sandbox" ? "eth0" : local.workspace == "prod" ? "enp37s0" : "None"
   ]
 }

@@ -9,8 +9,6 @@ data "proxmox_virtual_environment_roles" "available_roles" {}
 data "proxmox_virtual_environment_nodes" "available_nodes" {}
 
 locals {
-  workspace = terraform.workspace
+  workspace       = terraform.workspace
   available_nodes = data.proxmox_virtual_environment_nodes.available_nodes
 }
-
-

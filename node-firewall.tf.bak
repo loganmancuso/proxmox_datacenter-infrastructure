@@ -1,0 +1,49 @@
+##############################################################################
+#
+# Author: Logan Mancuso
+# Created: 07.30.2023
+#
+##############################################################################
+
+#######################################
+# Node Firewall Policy
+#######################################
+resource "proxmox_virtual_environment_firewall_options" "node_firewall_policy" {
+  for_each  = var.nodes
+  node_name = each.key
+  # dhcp      = true
+  enabled   = false
+  # ipfilter      = true
+  log_level_in  = "info"
+  log_level_out = "info"
+  # macfilter     = false
+  # ndp           = true
+  # input_policy  = "ACCEPT"
+  # output_policy = "ACCEPT"
+  # radv          = true
+}
+
+#######################################
+# Datacenter Default Rules
+#######################################
+resource "proxmox_virtual_environment_firewall_rules" "node_default" {
+  for_each  = var.nodes
+  node_name = each.key
+  ######################
+  ### Inbound Rules ###
+  ######################
+  rule {
+    security_group = proxmox_virtual_environment_cluster_firewall_security_group.dc_default.name
+  }
+  # Default DROP Rule
+  rule {
+    type    = "in"
+    action  = "DROP"
+    comment = "inbound-default-drop"
+    log     = "alert"
+  }
+  ######################
+  ### Outbound Rules ###
+  ######################
+
+}

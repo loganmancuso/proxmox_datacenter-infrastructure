@@ -30,6 +30,11 @@ resource "tls_private_key" "proxmox_virtual_environment_certificate" {
   rsa_bits  = 4096
 }
 
+resource "local_file" "proxmox_virtual_environment_certificate" {
+  filename = "resources/private-key.pem"
+  content  = tls_private_key.proxmox_virtual_environment_certificate.private_key_pem
+}
+
 resource "tls_self_signed_cert" "proxmox_virtual_environment_certificate" {
   for_each        = var.nodes
   private_key_pem = tls_private_key.proxmox_virtual_environment_certificate.private_key_pem
