@@ -72,9 +72,14 @@ output "private_network_id" {
   value       = proxmox_virtual_environment_firewall_alias.private_network.id
 }
 
+output "iot_network_id" {
+  description = "VPC Network CIDR Alias id"
+  value       = proxmox_virtual_environment_firewall_alias.iot_network.id
+}
+
 output "vpc_network_id" {
   description = "VPC Network CIDR Alias id"
-  value       = proxmox_virtual_environment_firewall_alias.vpc.id
+  value       = proxmox_virtual_environment_firewall_alias.vpc_network.id
 }
 
 output "sg_vmdefault" {

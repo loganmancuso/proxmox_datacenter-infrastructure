@@ -19,7 +19,12 @@ resource "proxmox_virtual_environment_firewall_alias" "private_network" {
   cidr    = "192.168.1.0/24"
   comment = "home network"
 }
-resource "proxmox_virtual_environment_firewall_alias" "vpc" {
+resource "proxmox_virtual_environment_firewall_alias" "iot_network" {
+  name    = "iot-network"
+  cidr    = "192.168.3.0/24"
+  comment = "iot network"
+}
+resource "proxmox_virtual_environment_firewall_alias" "vpc_network" {
   name    = "vpc-network"
   cidr    = "192.168.10.0/24"
   comment = "vpc network"
