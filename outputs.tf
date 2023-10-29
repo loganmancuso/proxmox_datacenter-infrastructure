@@ -76,3 +76,8 @@ output "vpc_network_id" {
   description = "VPC Network CIDR Alias id"
   value       = proxmox_virtual_environment_firewall_alias.vpc.id
 }
+
+output "sg_vmdefault" {
+  description = "Default SG for all vms's"
+  value       = proxmox_virtual_environment_cluster_firewall_security_group.vm_default.name
+}
