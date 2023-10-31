@@ -6,7 +6,7 @@
 ##############################################################################
 
 resource "random_password" "ops_password" {
-  length = 10
+  length  = 10
   special = true
 }
 

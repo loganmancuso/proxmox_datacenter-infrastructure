@@ -17,6 +17,17 @@ output "node_parameters" {
   description = "Node details"
   value       = local.available_nodes
 }
+
+output "node_name" {
+  description = "node name"
+  value       = var.node_name
+}
+
+output "node_ip" {
+  description = "node ip"
+  value       = var.node_ip
+}
+
 ########################
 #  User Variables
 ########################

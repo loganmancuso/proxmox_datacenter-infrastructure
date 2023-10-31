@@ -1,6 +1,7 @@
 .terraform
 *.tfstate.*
 .terraform.lock.hcl
+env/
 /main.tf
 /*.tfvars
 /hosts
