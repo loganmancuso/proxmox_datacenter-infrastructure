@@ -8,16 +8,15 @@
 ########################
 #  DC Variables
 ########################
-output "available_nodes" {
-  description = "List of all Nodes and hostnames in cluster"
-  value       = var.nodes
-}
-
 output "dc_endpoint" {
   description = "datacenter ip endpoint"
-  value       = var.endpoint
+  value       = var.node_ip
 }
 
+output "node_parameters" {
+  description = "Node details"
+  value       = local.available_nodes
+}
 ########################
 #  User Variables
 ########################
@@ -38,19 +37,9 @@ output "operations_user" {
 }
 
 output "operations_user_password" {
-  description = "operations user"
+  description = "operations password"
   sensitive   = true
   value       = proxmox_virtual_environment_user.operations_automation.password
-}
-
-output "instance_credentials" {
-  description = "VM instance credentials"
-  sensitive   = true
-  value = {
-    username = "instance-user"
-    password = var.instance_password
-    key      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINQj0vO0eNNKtED9at+T1h2Xj3K4sMHlyPoHx+ON+WLS mickeyacejr@live.com"
-  }
 }
 
 ########################

@@ -5,6 +5,11 @@
 #
 ##############################################################################
 
+resource "random_password" "ops_password" {
+  length = 10
+  special = true
+}
+
 #######################################
 # Users and Groups
 #######################################
@@ -14,8 +19,7 @@ resource "proxmox_virtual_environment_group" "operations_team" {
 }
 
 resource "proxmox_virtual_environment_role" "operations_team" {
-  role_id = "operations-role"
-  # Admin of the system
+  role_id    = "operations-role"
   privileges = data.proxmox_virtual_environment_roles.available_roles.privileges[0]
 }
 
@@ -27,6 +31,6 @@ resource "proxmox_virtual_environment_user" "operations_automation" {
   }
   groups   = [proxmox_virtual_environment_group.operations_team.group_id]
   comment  = "Terraform Deployment User"
-  password = var.ops_password
+  password = random_password.ops_password.result
   user_id  = "operations@pve"
 }

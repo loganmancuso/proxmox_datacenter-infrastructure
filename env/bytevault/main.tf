@@ -17,11 +17,17 @@ terraform {
       version = ">= 0.30.1"
     }
   }
-  backend "local" {}
+  backend "http" {
+    address  = "https://gitlab.com/api/v4/projects/48634510/terraform/state/bytevault"
+    username = "loganmancuso"
+    password = "glpat-pwhj9uGtz4sx_U88yvQZ"
+  }
 }
 
+provider "random" {}
+
 provider "proxmox" {
-  endpoint = "https://${var.endpoint}:8006/"
+  endpoint = "https://${var.node_ip}:8006/"
   username = "root@pam"
   password = var.root_password
   # (Optional) Skip TLS Verification
@@ -29,12 +35,9 @@ provider "proxmox" {
   ssh {
     agent    = true
     username = "root"
-    dynamic "node" {
-      for_each = var.nodes
-      content {
-        name    = node.key
-        address = node.value
-      }
+    node {
+      name    = var.node_name
+      address = var.node_ip
     }
   }
 }

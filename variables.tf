@@ -6,11 +6,19 @@
 ##############################################################################
 
 #######################################
-# Global Variables
+# Node Variables
 #######################################
 
-variable "endpoint" {
+variable "node_name" {
   type = string
+}
+
+variable "node_ip" {
+  type = string
+}
+
+variable "node_onboard_nics" {
+  type = list(string)
 }
 
 variable "root_password" {
@@ -18,20 +26,6 @@ variable "root_password" {
   sensitive = true
 }
 
-variable "instance_password" {
-  type      = string
-  sensitive = true
-}
-
-variable "nodes" {
-  type = map(string)
-}
-
 variable "dns_servers" {
   type = map(string)
-}
-
-variable "ops_password" {
-  type      = string
-  sensitive = true
 }

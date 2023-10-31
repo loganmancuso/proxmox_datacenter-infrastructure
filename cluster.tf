@@ -6,8 +6,7 @@
 ##############################################################################
 
 resource "proxmox_virtual_environment_time" "node_time" {
-  for_each  = var.nodes
-  node_name = each.key
+  node_name = var.node_name
   time_zone = "America/New_York"
 }
 
@@ -15,10 +14,9 @@ resource "proxmox_virtual_environment_time" "node_time" {
 # Cluster Alias
 #######################################
 resource "proxmox_virtual_environment_firewall_alias" "cluster_alias" {
-  for_each = var.nodes
-  name     = each.key
-  cidr     = "${each.value}/24"
-  comment  = "alias"
+  name    = var.node_name
+  cidr    = "${var.node_ip}/24"
+  comment = "alias"
 }
 
 #######################################
@@ -36,10 +34,9 @@ resource "local_file" "proxmox_virtual_environment_certificate" {
 }
 
 resource "tls_self_signed_cert" "proxmox_virtual_environment_certificate" {
-  for_each        = var.nodes
   private_key_pem = tls_private_key.proxmox_virtual_environment_certificate.private_key_pem
   subject {
-    common_name  = "${each.key}.local"
+    common_name  = "${var.node_name}.local"
     organization = "loganmancuso"
   }
   validity_period_hours = 8760
@@ -51,9 +48,8 @@ resource "tls_self_signed_cert" "proxmox_virtual_environment_certificate" {
 }
 
 resource "proxmox_virtual_environment_certificate" "node_cert" {
-  for_each    = var.nodes
-  node_name   = each.key
-  certificate = tls_self_signed_cert.proxmox_virtual_environment_certificate[each.key].cert_pem
+  node_name   = var.node_name
+  certificate = tls_self_signed_cert.proxmox_virtual_environment_certificate.cert_pem
   private_key = tls_private_key.proxmox_virtual_environment_certificate.private_key_pem
 }
 
@@ -62,6 +58,6 @@ resource "proxmox_virtual_environment_certificate" "node_cert" {
 #######################################
 resource "null_resource" "ansible_bootstrap" {
   provisioner "local-exec" {
-    command = "ansible-playbook -i scripts/${local.workspace}/hosts scripts/bootstrap.yaml"
+    command = "ansible-playbook -i ./hosts scripts/bootstrap.yaml -vvvv"
   }
 }

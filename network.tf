@@ -6,17 +6,13 @@
 ##############################################################################
 
 resource "proxmox_virtual_environment_dns" "dns_config" {
-  for_each  = var.nodes
-  node_name = each.key
-  # yours may vary
-  domain = "local"
-
-  servers = [for srv in var.dns_servers : srv]
+  node_name = var.node_name
+  domain    = "local"
+  servers   = [for srv in var.dns_servers : srv]
 }
 
 resource "proxmox_virtual_environment_hosts" "hosts" {
-  for_each  = var.nodes
-  node_name = each.key
+  node_name = var.node_name
   entry {
     address = "127.0.0.1"
 
@@ -26,11 +22,11 @@ resource "proxmox_virtual_environment_hosts" "hosts" {
     ]
   }
   entry {
-    address = each.value
+    address = var.node_ip
 
     hostnames = [
-      "${each.key}.local",
-      "${each.key}"
+      "${var.node_name}.local",
+      "${var.node_name}"
     ]
   }
   # The following lines are desirable for IPv6 capable hosts
@@ -79,17 +75,14 @@ resource "proxmox_virtual_environment_hosts" "hosts" {
   }
 }
 
-# terraform import proxmox_virtual_environment_network_linux_bridge.vmbr0[\"pve-master\"] pve:vmbr0
+# terraform import proxmox_virtual_environment_network_linux_bridge.vmbr0[\"node_name\"] node_name:vmbr0
 resource "proxmox_virtual_environment_network_linux_bridge" "vmbr0" {
-  for_each   = var.nodes
-  node_name  = each.key
+  node_name  = var.node_name
   name       = "vmbr0"
   autostart  = true
   vlan_aware = true
-  address    = "${each.value}/24"
+  address    = "${var.node_ip}/24"
   gateway    = var.dns_servers["local"]
   comment    = "default bridge interface"
-  ports = [
-    local.workspace == "sandbox" ? "eth0" : local.workspace == "prod" ? "enp37s0" : "None"
-  ]
+  ports      = var.node_onboard_nics
 }
