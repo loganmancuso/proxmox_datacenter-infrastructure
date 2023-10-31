@@ -8,11 +8,6 @@
 ########################
 #  DC Variables
 ########################
-output "dc_endpoint" {
-  description = "datacenter ip endpoint"
-  value       = var.node_ip
-}
-
 output "node_parameters" {
   description = "Node details"
   value       = local.available_nodes
@@ -31,12 +26,6 @@ output "node_ip" {
 ########################
 #  User Variables
 ########################
-output "root_password" {
-  description = "node root password"
-  sensitive   = true
-  value       = var.root_password
-}
-
 output "operations_role" {
   description = "operations role"
   value       = proxmox_virtual_environment_role.operations_team.role_id

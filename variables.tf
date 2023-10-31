@@ -21,11 +21,6 @@ variable "node_onboard_nics" {
   type = list(string)
 }
 
-variable "root_password" {
-  type      = string
-  sensitive = true
-}
-
 variable "dns_servers" {
   type = map(string)
 }
