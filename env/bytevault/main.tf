@@ -20,7 +20,7 @@ terraform {
   backend "http" {
     address  = "https://gitlab.com/api/v4/projects/48634510/terraform/state/bytevault"
     username = "loganmancuso"
-    password = "glpat-pwhj9uGtz4sx_U88yvQZ"
+    password = ""
   }
 }
 
