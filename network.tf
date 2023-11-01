@@ -85,4 +85,8 @@ resource "proxmox_virtual_environment_network_linux_bridge" "vmbr0" {
   gateway    = var.dns_servers["local"]
   comment    = "default bridge interface"
   ports      = var.node_onboard_nics
+  lifecycle {
+    # if you destroy this resource it could break proxmox
+    prevent_destroy = true
+  }
 }
