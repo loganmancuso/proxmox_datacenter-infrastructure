@@ -10,11 +10,11 @@
 #######################################
 
 terraform {
-  required_version = ">= 0.13.0"
+  required_version = ">= 1.6.0"
   required_providers {
     proxmox = {
       source  = "bpg/proxmox"
-      version = ">= 0.30.1"
+      version = ">= 0.37.0"
     }
   }
   backend "http" {
