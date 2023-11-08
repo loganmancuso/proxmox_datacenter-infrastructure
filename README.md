@@ -16,6 +16,12 @@ image     |   0   |   0   | [0-9] | [0-9] | [0-9] |
 lxc       |   1   |   0   | [0-9] | [0-9] | [0-9] |
 vm        |   2   |   0   | [0-9] | [0-9] | [0-9] |
 
+## Authentication
+
+set these secret variables in your environment
+export PROXMOX_VE_PASSWORD={this is your root password for proxmox}
+export TF_HTTP_PASSWORD={this is your github api key to sync the tf state}
+export PROXMOX_TOKEN={this is the api token generated for proxmox ops user created in this workflow}
 
 ## Usage
 to deploy this workflow link the environment tfvars folder to the root directory. 
