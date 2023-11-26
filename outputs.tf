@@ -80,7 +80,7 @@ output "sg_vmdefault" {
 #  CA Certs
 ########################
 
-output "root_ca_cert" {
+output "cert_root" {
   value = tls_self_signed_cert.root.cert_pem
 }
 
@@ -93,6 +93,6 @@ output "client_pub_key" {
   value = tls_private_key.client.public_key_pem
 }
 
-output "intranet_cert" {
+output "cert_intranet" {
   value = tls_locally_signed_cert.intranet.cert_pem
 }

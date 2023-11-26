@@ -34,5 +34,5 @@ resource "local_file" "client_pub" {
 # Intermediate Intranet Cert #
 resource "local_file" "intranet_cert" {
   content  = tls_locally_signed_cert.intranet.cert_pem
-  filename = "${path.module}/keys/intranet/cert.pem"
+  filename = "${path.module}/keys/client/cert-intranet.pem"
 }
