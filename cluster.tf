@@ -22,35 +22,10 @@ resource "proxmox_virtual_environment_firewall_alias" "cluster_alias" {
 #######################################
 # Cert Management
 #######################################
-
-resource "tls_private_key" "proxmox_virtual_environment_certificate" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "local_file" "proxmox_virtual_environment_certificate" {
-  filename = "resources/private-key.pem"
-  content  = tls_private_key.proxmox_virtual_environment_certificate.private_key_pem
-}
-
-resource "tls_self_signed_cert" "proxmox_virtual_environment_certificate" {
-  private_key_pem = tls_private_key.proxmox_virtual_environment_certificate.private_key_pem
-  subject {
-    common_name  = "${var.node_name}.local"
-    organization = "loganmancuso"
-  }
-  validity_period_hours = 8760
-  allowed_uses = [
-    "key_encipherment",
-    "digital_signature",
-    "server_auth",
-  ]
-}
-
 resource "proxmox_virtual_environment_certificate" "node_cert" {
   node_name   = var.node_name
-  certificate = tls_self_signed_cert.proxmox_virtual_environment_certificate.cert_pem
-  private_key = tls_private_key.proxmox_virtual_environment_certificate.private_key_pem
+  certificate = tls_locally_signed_cert.intranet.cert_pem
+  private_key = tls_private_key.client.private_key_pem
 }
 
 #######################################

@@ -6,3 +6,4 @@
 /main.tf
 /*.tfvars
 /hosts
+keys/

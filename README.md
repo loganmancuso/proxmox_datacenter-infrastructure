@@ -36,3 +36,10 @@ to deploy this workflow link the environment tfvars folder to the root directory
   tofu plan
   tofu apply
 ```
+
+## Post Deploy
+add the root cert as trusted on the local machine
+```bash
+sudo cp keys/root/cert-authority.pem /usr/local/share/ca-certificates/cert-authority.crt
+sudo update-ca-certificates --fresh
+```

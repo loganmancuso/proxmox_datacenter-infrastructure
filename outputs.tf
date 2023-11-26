@@ -75,3 +75,24 @@ output "sg_vmdefault" {
   description = "Default SG for all vms's"
   value       = proxmox_virtual_environment_cluster_firewall_security_group.vm_default.name
 }
+
+########################
+#  CA Certs
+########################
+
+output "root_ca_cert" {
+  value = tls_self_signed_cert.root.cert_pem
+}
+
+output "client_priv_key" {
+  value = tls_private_key.client.private_key_pem
+  sensitive = true
+}
+
+output "client_pub_key" {
+  value = tls_private_key.client.public_key_pem
+}
+
+output "intranet_cert" {
+  value = tls_locally_signed_cert.intranet.cert_pem
+}
