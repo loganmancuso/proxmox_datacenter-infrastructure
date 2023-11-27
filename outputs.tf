@@ -9,8 +9,8 @@
 #  DC Variables
 ########################
 output "node_parameters" {
-  description = "Node details"
-  value       = local.available_nodes
+  description = "lit of nodes online status"
+  value       = local.available_nodes.online
 }
 
 output "node_name" {
@@ -85,7 +85,7 @@ output "cert_root" {
 }
 
 output "client_priv_key" {
-  value = tls_private_key.client.private_key_pem
+  value     = tls_private_key.client.private_key_pem
   sensitive = true
 }
 
