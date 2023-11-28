@@ -2,13 +2,17 @@
 
 This workflow deploys the basic datacenter infrastructure for proxmox with a single node. 
 
-## Instance Numbering Convention
+##### Dependancies
+- loganmancuso_infrastructure/applications/hashicorp-vault>
+
+### Conventions
+---
+#### Instance Numbering 
 
 Proxmox uses numerical id's to distinguish resources. This outlines the basic convention to use when id'ing a resource. 
-
-images will be prefixed with '00'
-lxc containers will have a prefix of '10'
-vms will have a prefix of '20'
+- images will be prefixed with '00'
+- lxc containers will have a prefix of '10'
+- vms will have a prefix of '20'
 
 resource  | [0-9] | [0-9] | [0-9] | [0-9] | [0-9] |
 ---       |  ---  |  ---  |  ---  |  ---  |  ---  |
@@ -25,7 +29,7 @@ export TF_HTTP_PASSWORD={this is your github api key to sync the tf state}
 export PROXMOX_TOKEN={this is the api token generated for proxmox ops user created in this workflow}
 ```
 
-## Usage
+## Deployment
 to deploy this workflow link the environment tfvars folder to the root directory. 
 ```bash
   ln -s env/{node_name}/main.tf
