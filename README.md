@@ -36,22 +36,3 @@ to deploy this workflow link the environment tfvars folder to the root directory
   tofu plan
   tofu apply
 ```
-
-## Post Deploy
-add the root cert as trusted on the local machine
-```bash
-openssl x509 -in ./keys/root/cert-authority.pem -inform PEM -out ./keys/root/cert-authority.crt
-openssl x509 -in ./keys/client/cert-intranet.pem -inform PEM -out ./keys/client/cert-intranet.crt
-sudo cp ./keys/root/cert-authority.crt /usr/local/share/ca-certificates/cert-authority.crt
-sudo cp ./keys/client/cert-intranet.crt /usr/local/share/ca-certificates/cert-intranet.crt
-sudo update-ca-certificates --fresh
-```
-add the unlock tokens to the proxmox.env for export variables, then resource it using `source proxmox.env`
-```bash
-export VAULT_ADDR='https://localhost:8200'
-export VAULT_CAPATH=/usr/local/share/ca-certificates/cert-intranet.crt
-export VAULT_DEV_ROOT_TOKEN_ID=hvs.XXXXXXXXXXXXXXXXXXXXXX
-export UNSEAL_KEY_1=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-export UNSEAL_KEY_2=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-export UNSEAL_KEY_3=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-```
