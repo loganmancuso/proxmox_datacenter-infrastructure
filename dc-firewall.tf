@@ -1,7 +1,7 @@
 ##############################################################################
 #
 # Author: Logan Mancuso
-# Created: 11.27.2023
+# Created: 11.29.2023
 #
 ##############################################################################
 
@@ -61,6 +61,10 @@ resource "proxmox_virtual_environment_cluster_firewall" "dc_firewall_policy" {
     burst   = 10
     rate    = "5/second"
   }
+  lifecycle {
+    # if you destroy this resource it could break remote access to proxmox
+    prevent_destroy = true
+  }
 }
 
 # #######################################
@@ -83,4 +87,8 @@ resource "proxmox_virtual_environment_firewall_rules" "dc_default" {
   ######################
   ### Outbound Rules ###
   ######################
+  lifecycle {
+    # if you destroy this resource it could break remote access to proxmox
+    prevent_destroy = true
+  }
 }
