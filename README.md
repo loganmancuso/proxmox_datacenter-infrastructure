@@ -32,10 +32,7 @@ export PROXMOX_TOKEN={this is the api token generated for proxmox ops user creat
 ## Deployment
 to deploy this workflow link the environment tfvars folder to the root directory. 
 ```bash
-  ln -s env/{node_name}/main.tf
-  ln -s env/{node_name}/terraform.tfvars
-  ln -s env/{node_name}/hosts
-
+  ln -s env/{node_name}/* .
   tofu init .
   tofu plan
   tofu apply
