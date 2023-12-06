@@ -29,6 +29,11 @@ resource "proxmox_virtual_environment_firewall_alias" "vpc_network" {
   cidr    = "192.168.10.0/24"
   comment = "vpc network"
 }
+resource "proxmox_virtual_environment_firewall_alias" "vpc_gateway" {
+  name    = "vpc-gateway"
+  cidr    = "192.168.10.1/24"
+  comment = "vpc gateway"
+}
 
 #######################################
 # IP Sets
