@@ -76,6 +76,11 @@ output "vpc_gateway_network_id" {
   value       = proxmox_virtual_environment_firewall_alias.vpc_gateway.id
 }
 
+output "vpc_gateway_network_ip" {
+  description = "VPC Gateway Network CIDR Alias ip"
+  value       = trim(proxmox_virtual_environment_firewall_alias.vpc_gateway.cidr, "/24")
+}
+
 output "sg_vmdefault" {
   description = "Default SG for all vms's"
   value       = proxmox_virtual_environment_cluster_firewall_security_group.vm_default.name
