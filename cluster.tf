@@ -65,10 +65,45 @@ resource "proxmox_virtual_environment_certificate" "node_cert" {
 }
 
 #######################################
-# Ansible Bootstrap Node
+# Bootstrap Node
 #######################################
-resource "null_resource" "ansible_bootstrap" {
+
+locals {
+  helper_src    = "${path.module}/scripts/tofu"
+  helper_dst    = "/opt/tofu"
+  bootstrap_src = "${path.module}/scripts/bootstrap.sh"
+  bootstrap_dst = "/opt/tofu/bootstrap.sh"
+  bootstrap_cmd = "ssh -t root@${var.node_ip} 'chmod u+x,g+x ${local.bootstrap_dst} && ${local.bootstrap_dst}'"
+}
+
+resource "terraform_data" "bootstrap_node" {
+  provisioner "file" {
+    when        = create
+    source      = local.helper_src
+    destination = local.helper_dst
+    connection {
+      type        = "ssh"
+      user        = "root" # proxmox nodes only work through the root user right now
+      private_key = file("~/.ssh/id_ed25519")
+      host        = var.node_ip
+    }
+  }
+  provisioner "file" {
+    when = create
+    content = templatefile(local.bootstrap_src,
+      {
+        log_dst = "/var/log/tofu/bootstrap.log"
+      }
+    )
+    destination = local.bootstrap_dst
+    connection {
+      type        = "ssh"
+      user        = "root" # proxmox nodes only work through the root user right now
+      private_key = file("~/.ssh/id_ed25519")
+      host        = var.node_ip
+    }
+  }
   provisioner "local-exec" {
-    command = "ansible-playbook -i ./hosts scripts/bootstrap.yaml -vvvv"
+    command = local.bootstrap_cmd
   }
 }
