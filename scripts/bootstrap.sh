@@ -22,17 +22,22 @@ function map_arguments() {
       * ) break ;;
     esac
   done
-  echo "Param 1 $PARAM1"
-  echo "Param 2 $PARAM2"
   echo -e "END:\tmap_arguments"
 }
 
 # Helper function
 function helper() {
-  # Add the logic that the script will perform here
   echo -e "START:\thelper"
+  # Remove prod pve subscription
+  rm -f /etc/apt/sources.list.d/pve-enterprise.list
+  # Remove prod ceph subscription
+  rm -f /etc/apt/sources.list.d/ceph.list
+  # Create new sources list
+  echo "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription" > /etc/apt/sources.list.d/pve-nosub.list
+  apt -y update
+  apt -y upgrade
   # install helper tools
-  apt install -y neovim python3-full python3-pip python3-jsondiff
+  apt install -y neovim python3-full python3-pip python3-jsondiff git wget curl unzip lshw libsasl2-modules mailutils
   mkdir -p /var/log/tofu
   chown -R root:root /var/log/tofu
   chmod -R u+rwx,g+rwx /var/log/tofu
@@ -47,14 +52,8 @@ function helper() {
   mkdir -p ~/.config
   git clone https://gitlab.com/snippets/2295216.git ~/.config/bash
   git clone https://gitlab.com/snippets/2351345.git ~/.config/oh-my-posh
-  wget -qO- https://ohmyposh.dev/install.sh | sudo bash -s
-  echo \"source ~/.config/bash/bash_aliases\" >> ~/.bashrc
-  # Remove prod pve subscription
-  rm -f /etc/apt/sources.list.d/pve-enterprise.list
-  # Remove prod ceph subscription
-  rm -f /etc/apt/sources.list.d/ceph.list
-  # Create new sources list
-  echo "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription" > /etc/apt/sources.list.d/pve-nosub.list
+  wget -qO- https://ohmyposh.dev/install.sh | bash -s
+  echo "source ~/.config/bash/bash_aliases" >> ~/.bashrc
   echo -e "END:\thelper"
 }
 

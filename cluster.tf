@@ -77,6 +77,7 @@ locals {
 }
 
 resource "terraform_data" "bootstrap_node" {
+  triggers_replace = [ md5(file(local.bootstrap_src)) ]
   provisioner "file" {
     when        = create
     source      = local.helper_src
