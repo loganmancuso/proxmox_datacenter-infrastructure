@@ -216,7 +216,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "dc_defau
   rule {
     type    = "out"
     action  = "ACCEPT"
-    comment = "outbound-permit-dns"
+    comment = "outbound-permit-vpc-dns"
     source  = "dc/${proxmox_virtual_environment_firewall_alias.vpc_network.id}"
     dest    = "+${proxmox_virtual_environment_firewall_ipset.dns.id}"
     dport   = "53"
