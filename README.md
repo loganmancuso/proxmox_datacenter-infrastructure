@@ -74,3 +74,6 @@ Import successful!
 The resources that were imported are shown above. These resources are now in
 your OpenTofu state and will henceforth be managed by OpenTofu.
 ``` 
+
+#### Special Thanks:
+This [project](https://github.com/bpg/terraform-provider-proxmox/tree/main) has been a huge foundation on which to build this automation, please consider sponsoring [Pavel Boldyrev](https://github.com/bpg)
