@@ -12,19 +12,19 @@ locals {
   available_nodes = data.proxmox_virtual_environment_nodes.available_nodes
 }
 
-data "terraform_remote_state" "hashicorp_vault" {
+data "terraform_remote_state" "global_secrets" {
   backend = "http"
   config = {
-    address  = "https://gitlab.com/api/v4/projects/52530007/terraform/state/hashicorp-vault"
+    address  = "https://gitlab.com/api/v4/projects/52104036/terraform/state/global-secrets"
     username = "loganmancuso"
   }
 }
 
 locals {
   # hashicorp_vault
-  cert_root       = data.terraform_remote_state.hashicorp_vault.outputs.cert_root
-  root_priv_key   = data.terraform_remote_state.hashicorp_vault.outputs.root_priv_key
-  cert_intranet   = data.terraform_remote_state.hashicorp_vault.outputs.cert_intranet
-  client_priv_key = data.terraform_remote_state.hashicorp_vault.outputs.client_priv_key
-  client_pub_key  = data.terraform_remote_state.hashicorp_vault.outputs.client_pub_key
+  cert_root       = data.terraform_remote_state.global_secrets.outputs.cert_root
+  root_priv_key   = data.terraform_remote_state.global_secrets.outputs.root_priv_key
+  cert_intranet   = data.terraform_remote_state.global_secrets.outputs.cert_intranet
+  client_priv_key = data.terraform_remote_state.global_secrets.outputs.client_priv_key
+  client_pub_key  = data.terraform_remote_state.global_secrets.outputs.client_pub_key
 }
