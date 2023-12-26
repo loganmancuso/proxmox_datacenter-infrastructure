@@ -5,6 +5,12 @@ This workflow deploys the basic datacenter infrastructure for proxmox with a sin
 ##### Dependancies
 - loganmancuso_infrastructure/applications/hashicorp-vault>
 
+## Getting Started
+If you do not already have [opentofu](https://opentofu.org/) or [terraform](https://www.terraform.io/) installed, please reference the source documents to install the tools. This project is a terraform automation to build out a proxmox cluster, right now the testing has only been pushed to one node. There is a plan to split this workflow into a datacenter-infrastructure and a node-infrastructure. 
+
+### Known issues
+I originally tried to develop this project on windows 11 with the WSL however packer on WSL has some trouble with the networking. I would recommend to run these workflows from a proper linux machine.   
+
 ### Conventions
 ---
 #### Instance Numbering 
