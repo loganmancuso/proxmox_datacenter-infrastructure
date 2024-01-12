@@ -54,6 +54,9 @@ function helper() {
   git clone https://gitlab.com/snippets/2351345.git ~/.config/oh-my-posh
   wget -qO- https://ohmyposh.dev/install.sh | bash -s
   echo "source ~/.config/bash/bash_aliases" >> ~/.bashrc
+  # remove pve notification of missing subscription
+  wget -O /opt/tofu/pve-nag.sh https://raw.githubusercontent.com/foundObjects/pve-nag-buster/master/install.sh 
+  chmod +x pve-nag.sh && ./pve-nag.sh
   echo -e "END:\thelper"
 }
 
