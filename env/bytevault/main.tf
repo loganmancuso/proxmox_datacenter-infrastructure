@@ -28,6 +28,7 @@ provider "random" {}
 provider "proxmox" {
   endpoint = "https://${var.node_ip}:8006/"
   username = "root@pam"
+  password = local.credentials_proxmox.root_password
   # (Optional) Skip TLS Verification
   insecure = true
   ssh {
